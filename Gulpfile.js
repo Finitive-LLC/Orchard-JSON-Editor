@@ -1,5 +1,6 @@
 const gulp = require('gulp');
-const recommendedSetup = require('../../Utilities/Lombiq.Gulp.Extensions/recommended-setup');
+const scss = require('../../Utilities/Lombiq.Gulp.Extensions/Tasks/scss-targets');
+const copyAssets = require('../../Utilities/Lombiq.Gulp.Extensions/Tasks/copy-assets');
 
 const assets = [
     {
@@ -8,9 +9,7 @@ const assets = [
     },
 ];
 
-recommendedSetup
-    .setupVendorsCopyAssets(assets)
-    .setupRecommendedScssTasks();
+gulp.task('build:styles', scss.build('./Assets/Styles/', './wwwroot/css'));
+gulp.task('copy:vendor-assets', () => copyAssets(assets, './wwwroot/vendors/'));
 
 gulp.task('default', gulp.parallel('build:styles', 'copy:vendor-assets'));
-gulp.task('clean', gulp.parallel('clean:styles', 'clean:vendor-assets'));
